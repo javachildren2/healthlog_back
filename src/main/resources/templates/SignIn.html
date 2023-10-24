@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+<form method="post" th:action="@{/user/save}">
+    아이디 : <input type="text" name="id">
+    패스워드 : <input type="password" name="password">
+    이름 : <input type="text" name="name">
+    <button>가입하기</button>
+</form>
+</body>
+</html>

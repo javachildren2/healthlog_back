@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.health_log.dao.UserDao">
+
+
+
+    <!-- 데이터베이스에 데이터를 저장하는 INSERT 쿼리 -->
+    <insert id="insertUser" parameterType="com.app.health_log.domain.User">
+        INSERT INTO user_info (id, pwd, user_id) VALUES (#{id}, #{pwd}, #{user_id})
+    </insert>
+    <select id="getUserById" resultType="com.app.health_log.domain.User">
+        SELECT * FROM user_info WHERE id = #{id}
+    </select>
+
+</mapper>
+
