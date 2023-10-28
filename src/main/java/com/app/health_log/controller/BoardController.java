@@ -95,16 +95,13 @@ public class BoardController {
     public ResponseEntity<BoardDto> read(@PathVariable Integer bno) {
 
         try {
-            // 1. 게시물 조회
-            BoardDto boardDto = boardDao.select(bno);
+            BoardDto boardDto = boardService.read(bno);
 
             if (boardDto != null) {
-                // 2. view_cnt 증가
                boardDto.setView_cnt(boardDto.getView_cnt() + 1);
 
-                // 3. 게시물 업데이트 (view_cnt만 증가)
-                int updatedRows = boardDao.updateViewCnt(boardDto);
-
+//                int updatedRows = boardDao.updateViewCnt(boardDto);
+                int updatedRows = boardService.upViewCnt(boardDto);
                 if (updatedRows == 1) {
                     return ResponseEntity.ok(boardDto);
                 } else {
@@ -120,7 +117,7 @@ public class BoardController {
     @GetMapping("/all")
     public ResponseEntity<List<BoardDto>> getAllBoardData() {
         try {
-            List<BoardDto> boardData = boardDao.selectAll(); // selectAll 메서드를 호출하여 모든 게시물 데이터를 가져옵니다.
+            List<BoardDto> boardData = boardService.getList(); // selectAll 메서드를 호출하여 모든 게시물 데이터를 가져옵니다.
             return ResponseEntity.ok(boardData);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -132,6 +129,7 @@ public class BoardController {
         if (writer == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("권한이 없습니다.");
         }
+
         if (!writer.equals(boardService.getBnoWriter(boardDto.getBno()))){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("금지된 접근입니다.");
         }
@@ -150,10 +148,8 @@ public class BoardController {
     }@GetMapping("/scp")
     public ResponseEntity<Map<String, Object>> getBoardPage(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
         try {
-            // 페이지 번호와 페이지 크기를 이용하여 오프셋(offset) 계산
             int offset = (page - 1) * pageSize;
 
-            // 매핑에 사용할 매개변수 맵 생성
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("offset", offset);
             paramMap.put("pageSize", pageSize);
@@ -161,10 +157,8 @@ public class BoardController {
             List<BoardDto> boardPage = boardService.getPage(paramMap);
 
 
-            // 총 게시물 수를 가져오는 메서드 호출
             int totalCnt = boardDao.count();
 
-            // 결과를 담을 Map 생성
             Map<String, Object> result = new HashMap<>();
             result.put("boardPage", boardPage);
             result.put("totalCnt", totalCnt);
@@ -182,23 +176,17 @@ public class BoardController {
             @RequestParam("keyword") String keyword
     ) {
         try {
-            // 페이지 번호와 페이지 크기를 이용하여 오프셋(offset) 계산
             int offset = (page - 1) * pageSize;
 
-            // 검색 조건(SearchCondition) 객체 생성
             SearchCondition searchCondition = new SearchCondition();
             searchCondition.setKeyword(keyword);
-            searchCondition.setOption(option); // 옵션 설정
+            searchCondition.setOption(option);
             searchCondition.setOffset(offset);
             searchCondition.setPageSize(pageSize);
 
-            // 게시글 목록 조회
             List<BoardDto> boardPage = boardService.getSearchResultPage(searchCondition);
-
-            // 총 게시물 수 조회
             int totalCnt = boardService.getSearchResultCnt(searchCondition);
 
-            // 결과를 담을 Map 생성
             Map<String, Object> resultSearch = new HashMap<>();
             resultSearch.put("boardPage", boardPage);
             resultSearch.put("totalCnt", totalCnt);
@@ -227,7 +215,6 @@ public class BoardController {
 
 
 
-    // JWT 토큰에서 헤더 부분을 추출하는 메서드
     private String extractTokenFromHeader(String header) {
         if (header != null && header.startsWith("Bearer ")) {
             return header.substring(7); // "Bearer " 다음의 문자열이 토큰입니다.
@@ -246,7 +233,6 @@ public class BoardController {
             
             return user_Id;
         } catch (Exception e) {
-            // JWT 디코딩 실패 또는 검증 실패 시 처리
             return null;
         }
     }

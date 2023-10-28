@@ -35,11 +35,11 @@ public class BoardDaoImpl implements BoardDao {
         map.put("writer", writer);
         return session.delete(namespace+"delete", map);
     }
-    public int update(BoardDto dto) throws Exception {
-        return session.update(namespace+"update", dto);
+    public int update(BoardDto boardDto) throws Exception {
+        return session.update(namespace+"update", boardDto);
     } // int update(String statement, Object parameter)
-    public  int updateViewCnt(BoardDto dto ) throws Exception{
-        return session.update(namespace+"updateViewCnt",dto);
+    public  int updateViewCnt(BoardDto boardDto ) throws Exception{
+        return session.update(namespace+"updateViewCnt",boardDto);
     }
     public String searchWriter(Integer bno) throws Exception {
         return session.selectOne(namespace + "searchWriter", bno);
@@ -49,8 +49,8 @@ public class BoardDaoImpl implements BoardDao {
 
 
     @Override
-    public int insert(BoardDto dto) throws Exception {
-        return session.insert(namespace+"insert", dto);
+    public int insert(BoardDto boardDto) throws Exception {
+        return session.insert(namespace+"insert", boardDto);
     }
 
     @Override
