@@ -28,12 +28,11 @@ public class BoardController {
     private String jwtSecret;
     private final BoardService boardService;
     private final SecurityService securityService;
-    private final BoardDao boardDao;
 
-    public BoardController(BoardService boardService, SecurityService securityService, BoardDao boardDao) {
+
+    public BoardController(BoardService boardService, SecurityService securityService) {
         this.boardService = boardService;
         this.securityService = securityService;
-        this.boardDao = boardDao;
     }
 
     @PostMapping("/write")
@@ -157,7 +156,7 @@ public class BoardController {
             List<BoardDto> boardPage = boardService.getPage(paramMap);
 
 
-            int totalCnt = boardDao.count();
+            int totalCnt = boardService.getCount();
 
             Map<String, Object> result = new HashMap<>();
             result.put("boardPage", boardPage);

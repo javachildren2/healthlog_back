@@ -18,14 +18,16 @@ public class UserController {
         this.userDao = userDao;
     }
     @PostMapping("/insert")
-    public UserDto insertUser(@RequestBody User user) throws Exception{
+    public UserDto insertUser(@RequestBody User user) throws Exception {
         int result = userDao.insertUser(user);
 
-        UserDto returnDto = new UserDto();
-        returnDto.setId(user.getId());
-        returnDto.setPwd(user.getPwd());
-        returnDto.setUser_id(user.getUser_id());
-        return returnDto;
+
+        return UserDto.builder()
+                .id(user.getId())
+                .pwd(user.getPwd())
+                .user_id(user.getUser_id()).build();
+
+
     }
 
 
