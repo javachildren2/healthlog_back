@@ -56,10 +56,5 @@ public class BoardService {
     public List<BoardDto> getSearchResultPage(SearchCondition sc) throws Exception {
         return boardDao.searchSelectPage(sc);
     }
-    public void deleteItem(Long itemId, String userId) {
-        // userId를 사용하여 해당 항목을 삭제하는 로직 구현
-        // 예를 들어, 데이터베이스에서 해당 항목을 조회하고 사용자 ID와 비교하여 권한을 확인한 후 삭제하는 방식을 사용할 수 있습니다.
-
-    }
 
 }

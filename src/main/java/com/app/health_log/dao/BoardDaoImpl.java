@@ -44,10 +44,6 @@ public class BoardDaoImpl implements BoardDao {
     public String searchWriter(Integer bno) throws Exception {
         return session.selectOne(namespace + "searchWriter", bno);
     }
-
-
-
-
     @Override
     public int insert(BoardDto boardDto) throws Exception {
         return session.insert(namespace+"insert", boardDto);
@@ -72,13 +68,13 @@ public class BoardDaoImpl implements BoardDao {
 
 
     @Override
-    public int searchResultCnt(SearchCondition sc) throws Exception {
-        System.out.println("sc in searchResultCnt() = " + sc);
-        System.out.println("session = " + session);
-        return session.selectOne(namespace+"searchResultCnt", sc);
-    }
-    @Override
     public List<BoardDto> searchSelectPage(SearchCondition sc) throws Exception {
         return session.selectList(namespace+"searchSelectPage", sc);
+    }
+    @Override
+    public int searchResultCnt(SearchCondition sc) throws Exception {
+//        System.out.println("sc in searchResultCnt() = " + sc);
+//        System.out.println("session = " + session);
+        return session.selectOne(namespace+"searchResultCnt", sc);
     }
 }

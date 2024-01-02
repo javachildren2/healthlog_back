@@ -1,6 +1,9 @@
 package com.app.health_log.domain;
+import lombok.Data;
+
 import java.util.Date;
 import java.util.Objects;
+
 
 public class BoardDto {
     private Integer bno;
@@ -9,6 +12,11 @@ public class BoardDto {
     private String  writer;
     private Date reg_date;
     private Integer view_cnt;
+    private String http_msg;
+
+    public BoardDto() {
+    }
+
 
     public BoardDto(Integer bno, String title, String content, String writer, Date reg_date, Integer view_cnt) {
         this.bno = bno;
@@ -17,11 +25,12 @@ public class BoardDto {
         this.writer = writer;
         this.reg_date = reg_date;
         this.view_cnt = view_cnt;
-        }
-
+    }
     public Integer getBno() {
         return bno;
     }
+
+
 
     public void setBno(Integer bno) {
         this.bno = bno;
@@ -66,13 +75,12 @@ public class BoardDto {
     public void setView_cnt(Integer view_cnt) {
         this.view_cnt = view_cnt;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BoardDto boardDto = (BoardDto) o;
-        return Objects.equals(bno, boardDto.bno) && Objects.equals(title, boardDto.title) && Objects.equals(content, boardDto.content) && Objects.equals(writer, boardDto.writer) && Objects.equals(view_cnt, boardDto.view_cnt);
+        return Objects.equals(bno, boardDto.bno) && Objects.equals(title, boardDto.title) && Objects.equals(content, boardDto.content) && Objects.equals(writer, boardDto.writer) && Objects.equals(reg_date, boardDto.reg_date) && Objects.equals(view_cnt, boardDto.view_cnt) ;
     }
 
     @Override

@@ -26,24 +26,20 @@ public class LoginController {
         this.securityService = securityService;
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
+        User userObject = userService.authenticateAndGetUser(user.getId(), user.getPwd());
 
+        if (userObject != null) {
+            String token = securityService.createToken(userObject.getUser_id(), 3600000); // 토큰 만료 시간을 밀리초로 설정합니다.
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            response.put("user_id", userObject.getUser_id());
 
-
-        @PostMapping("/login")
-        public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
-            boolean isAuthenticated = userService.authenticateUser(user.getId(), user.getPwd());
-            User userObject = userService.getUser_id(user.getId(), user.getPwd());
-
-            if (isAuthenticated) {
-                String token = securityService.createToken(userObject.getUser_id(), 3600000); // 토큰 만료 시간을 밀리초로 설정합니다.
-                Map<String, String> response = new HashMap<>();
-                response.put("token", token);
-                response.put("user_id", userObject.getUser_id());
-
-                return ResponseEntity.ok(response);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-            }
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+}
 

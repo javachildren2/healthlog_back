@@ -21,7 +21,6 @@ public class SecurityService {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
-
     //로그인 서비스 던질때 같이
     public String createToken(String subject, long expirationTime) {
         if (expirationTime <= 0) {
@@ -31,9 +30,7 @@ public class SecurityService {
             throw new RuntimeException("JWT 서명 키가 올바르게 설정되지 않았습니다.");
         }
 
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
-        return Jwts.builder()
+               return Jwts.builder()
                 .setSubject(subject)
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))

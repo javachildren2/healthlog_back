@@ -21,11 +21,11 @@ public class UserController {
     public UserDto insertUser(@RequestBody User user) throws Exception {
         int result = userDao.insertUser(user);
 
-
         return UserDto.builder()
                 .id(user.getId())
                 .pwd(user.getPwd())
-                .user_id(user.getUser_id()).build();
+                .user_id(user.getUser_id())
+                .build();
 
 
     }

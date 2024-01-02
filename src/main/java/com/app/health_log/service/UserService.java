@@ -6,6 +6,8 @@ import com.app.health_log.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -16,16 +18,7 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public boolean authenticateUser(String id, String pwd) {
-        User user = userDao.getUserById(id);
-
-        if (user != null && user.getPwd().equals(pwd)) {
-            return true;
-        }
-
-        return false;
-    }
-    public User getUser_id(String id, String pwd){
+    public User authenticateAndGetUser(String id, String pwd) {
         User user = userDao.getUserById(id);
 
         if (user != null && user.getPwd().equals(pwd)) {
